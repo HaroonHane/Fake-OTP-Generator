@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Generate OTPs</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+      .container {
+        margin: auto;
+        width: 400px;
+        height: 500px;
+        border: 2px solid black;
+        text-align: center;
+        font-family: "Segoe UI";
+        margin-top: 70px;
+        border-radius: 10% 0 30% 0%;
+        background:linear-gradient(to top left,#dad,#da3d)
+      }
+      .container h2 {
+        border-bottom: 2px solid black;
+        padding-top: 20px;
+        padding-bottom: 20px;
+        border-radius: 30% 30% 30% 30%
+      }
+      .container input {
+        width: 300px;
+        height: 40px;
+        font-size: 15px;
+        border-radius: 10px 0 0 0;
+      padding-left: 10px;
+      margin-top: 40px;
+      }
+      .container button {
+        padding: 10px;
+        font-size: 15px;
+        border-radius: 30% 0 30% 0%;
+        background:linear-gradient(to bottom right,rgba(158, 109, 177, 0.712),rgba(175, 156, 110, 0.687));
+       font-weight: 500;
+       color: #323332;
+      }
+      #chkotp {
+        pointer-events: none;
+        opacity: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h2>Generate Unique OTP</h2>
+      <input
+        type="number,11"
+        maxlength="11"
+        required=""
+        placeholder="Enter Your Phone Number"
+        id="phoneNumer"
+      />
+      <br /><br />
+      <button onclick="generate_otp()">Generate</button>
+      <br /><br /><br />
+      Your 4 Digit OTP is Here
+      <br />
+      <h1 id="new_otp"></h1>
+      <input
+        oninput="show(this)"
+        id="OTP_check"
+        type="number,4"
+        maxlength="4"
+        placeholder="Enter your 4 digit OTP Here"
+        required=""
+        readonly
+      />
+      <br /><br />
+      <button id="chkotp" onclick="verifyOTP()">Check OTP</button>
+    </div>
+  </body>
+  <script>
+    const checkotpcont = document.querySelector("#OTP_check");
+
+    let x, new_OTP;
+    //Generat New using PhoneNo----------1>
+    function generate_otp() {
+      // e.preventdefault();
+      //Take Phone Number from The User-----*>
+      const ph_nbr = document.getElementById("phoneNumer").value;
+
+      const roundUp = parseInt(ph_nbr);
+      //Not Usable ==========Start>
+      const invlPhNo1 = 1000000000;
+      const uptInvlphNo1 = 2999999999;
+      //Usable phone Numbers
+      const strtphNo = 3000000000;
+      const uptophNo = 3499999999;
+      // Not Usable ===========End>
+      const invlPhNo2 = 3500000000;
+      const uptInvlphNo2 = 9999999999;
+      if (roundUp != 0) {
+        if (
+          (roundUp >= invlPhNo1 && roundUp <= uptInvlphNo1) ||
+          (roundUp >= invlPhNo2 && roundUp <= uptInvlphNo2)
+        ) {
+          // alert("invalid phoneNo "+ roundUp);
+          document.getElementById("new_otp").innerText = "Invalid PhoneNo!";
+        }
+        if (roundUp >= 3000000000 && roundUp <= 3499999999) {
+          x = Math.random() * 10000;
+          new_OTP = Math.floor(x);
+          if (new_OTP >= 0 && new_OTP <= 9) {
+            new_OTP = 1000 + ew_OTP;
+          } else if (new_OTP >= 10 && new_OTP <= 100) {
+            new_OTP = 999 + new_OTP;
+          } else if (new_OTP >= 101 && new_OTP <= 999) {
+            new_OTP = 999 + new_OTP;
+          }
+          document.getElementById("new_otp").innerText = new_OTP;
+          alert("Your OTP is send to this Number! " + `"0${roundUp} "`);
+        }
+      }
+      checkotpcont.removeAttribute("readonly");
+    }
+    //Verify the OTP ---------------->
+
+    function verifyOTP() {
+      const otpValueFromUser = document.querySelector("#OTP_check").value;
+      const otpValue = parseInt(otpValueFromUser);
+      if (otpValue === new_OTP) {
+        alert("Your OTP is Successfully matched...");
+      } else {
+        if (otpValue <= 0 || otpValue <= 999 || otpValue === null) {
+          alert(`Please enter a valid OTP ${otpValue}`);
+        } else {
+          alert("Sorry, Your OTP did not match");
+        }
+      }
+    }
+    function show(e) {
+      const chkBtn = document.querySelector("#chkotp");
+      if (e.value >= 4 && e.value < 10) {
+        chkBtn.style.opacity = "0.25";
+      } else if (e.value >= 10 && e.value < 100) {
+        chkBtn.style.opacity = "0.5";
+      } else if (e.value >= 101 && e.value < 1000) {
+        chkBtn.style.opacity = "0.75";
+      } else if (e.value >= 1000) {
+        chkBtn.style.opacity = "1";
+        chkBtn.style.pointerEvents = "all";
+      } else {
+        chkBtn.style.opacity = "0";
+        chkBtn.style.pointerEvents = "none";
+      }
+    }
+  </script>
+</html>
